@@ -1,0 +1,69 @@
+:root{
+    --azul: #130794;
+    --cinza: #D9D9D9;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: white;
+    font-family: sans-serif
+}
+
+.perfil{
+    background-color: var(--azul);
+    color: #ffffff;
+}
+
+.topo{
+    background-color: var(--azul);
+    color: #ffffff;
+    padding: 30px;
+}
+
+.nome{
+    background-color: transparent;
+    color: #ffffff;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.mini-caixa{
+    background-color: var(--azul);
+    height: 130px;
+    width: 250px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.saldo{
+    background-color: var(--cinza);
+    border-radius: 20px;
+    height: 70px;
+    width: 230px;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.texto{
+    margin-top: 5px;
+}
+
+.texto-saldo{
+    color: #000000;
+    font-family: sans-serif;
+    margin-top: 5px;
+    margin-left: 10px;
+}
