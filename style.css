@@ -52,7 +52,7 @@ body {
   display: none;
   flex-direction: column;
   height: 100%;
-  padding: 32px 24px;
+  padding: 0; /*O certo é padding: 32px 24px; estou tentando deixar normal, mas sem mudar o header*/
   animation: fadeIn 0.3s ease;
   /* Toda vez que uma tela nova aparece (via JavaScript), o CSS executa essa animação. ~Keyframe */
 }
@@ -105,6 +105,34 @@ p {
 .header-principal{
   background-color: var(--cor-primaria);
   color: white;
+}
+
+.header-tela{
+  background-color: var(--cor-primaria);
+  color: white;
+  padding: 32px 24px;
+  border-radius: 0 0 16px 16px;
+  width: 100%;
+}
+
+.header-tela h1{
+  color: white;
+  margin-bottom: 0;
+}
+
+.conteudo-tela{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 32px 24px;
+}
+
+.footer-tela{
+  background-color: var(--cor-primaria);
+  height: 50px;
+  width: 100%;
+  margin-top: auto;
 }
 
 .header-principal,
