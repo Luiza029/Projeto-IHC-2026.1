@@ -29,7 +29,12 @@
       <header class="header-principal">
         <h1>Olá, Murilo 👋</h1>
         <div class="card-saldo">
-          <p class="legenda">Saldo disponível</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <p class="legenda">Saldo disponível</p>
+            <button id="btn-toggle-saldo" onclick="toggleSaldo()" style="width: auto; background: transparent; padding: 0; margin: 0; font-size: 1.5rem;">
+              👁️
+            </button>
+          </div>
           <h2 id="display-saldo">R$ 200,00</h2>
         </div>
       </header>

@@ -7,10 +7,27 @@ let valorContaPendente = 0; // Quanto de dinheiro vai sair
 let tipoTransacaoAtual = ""; // Guarda se é "PIX" ou "Pagamento"
 let valorDigitadoStr = "0"; // String que alimenta o teclado numérico
 let telaAnteriorConfirmacao = ""; // Ajuda o botão "Voltar" a saber para onde ir
-
 // Formatador nativo do JS para converter números em R$ 0,00
 const formatadorBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
+// Variável de controle de estado
+let saldoOculto = false;
+
+function toggleSaldo() {
+    const displaySaldo = document.getElementById('display-saldo');
+    const btnToggle = document.getElementById('btn-toggle-saldo');
+    
+    saldoOculto = !saldoOculto; // Inverte o valor do lt saldoOculto
+
+    if (saldoOculto) {
+        displaySaldo.textContent = "••••••"; // Máscara de segurança
+        btnToggle.textContent = "👀"; // Muda o ícone
+    } else {
+        // Revela o saldo formatado usando o valor global saldoApp
+        displaySaldo.textContent = formatadorBRL.format(saldoApp);
+        btnToggle.textContent = "👁️";
+    }
+}
 
 // ==========================================
 // MOTOR DE NAVEGAÇÃO (SPA)
@@ -22,9 +39,16 @@ function navegar(idTela) {
 
     // Sempre que voltar ao início, garante que o saldo na tela esteja atualizado
     if (idTela === 'tela-inicio') {
-        document.getElementById('display-saldo').textContent = formatadorBRL.format(saldoApp);
+        const displaySaldo = document.getElementById('display-saldo');
+        if (saldoOculto) {
+            displaySaldo.textContent = "••••••";
+        } else {
+            displaySaldo.textContent = formatadorBRL.format(saldoApp);
+        }
     }
 }
+
+
 
 
 // ==========================================
