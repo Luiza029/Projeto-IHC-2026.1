@@ -138,16 +138,26 @@ p {
 .header-principal,
 .header-interno {
   margin-bottom: 32px;
+  padding: 32px 24px;
 }
 
 .header-login {
-  margin-top: 60px;
+  margin-top: 150px;
   margin-bottom: auto;
 }
 
-.logo-banco {
-  font-size: 80px;
-  margin-bottom: 24px;
+.perfil_pai{
+  display: flex;
+}
+
+.foto-perfil{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--cor-primaria);
+  margin-bottom: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* --- COMPONENTES VISUAIS --- */
@@ -168,6 +178,10 @@ p {
   margin: 0;
   font-size: 2.5rem;
   color: white;
+}
+
+.acoes-container{
+  margin-top: 50px;
 }
 
 /* --- LEI DE FITTS (BOTÕES E ALVOS DE TOQUE) --- */
@@ -222,6 +236,10 @@ button:active {
   font-size: 1.1rem;
   margin-bottom: 16px;
   width: auto;
+}
+
+.btn-sair{
+  padding-top: 50px;
 }
 
 /* Contatos: Layout empilhado para facilitar a leitura */
