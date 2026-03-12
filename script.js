@@ -21,7 +21,7 @@ function toggleSaldo() {
 
     if (saldoOculto) {
         displaySaldo.textContent = "••••••"; // Máscara de segurança
-        btnToggle.textContent = "🙈"; // Muda o ícone
+        btnToggle.textContent = "👀"; // Muda o ícone
     } else {
         // Revela o saldo formatado usando o valor global saldoApp
         displaySaldo.textContent = formatadorBRL.format(saldoApp);
