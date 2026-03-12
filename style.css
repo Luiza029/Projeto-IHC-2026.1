@@ -1,69 +1,440 @@
-:root{
-    --azul: #130794;
-    --cinza: #D9D9D9;
+/* --- VARIÁVEIS DE COR E TEMA  --- */
+/* O design é propositalmente simples para reduzir a sobrecarga cognitiva e fadiga visual */
+:root {
+  --fundo-app: #FAFAFA;
+  --texto-principal: #111111;
+  --texto-secundario: #555555;
+  --cor-primaria: #0A0A2A;
+  /* Azul bem escuro, passa elegância e seriedade */
+  --cor-secundaria: #E5E5E5;
+  --cor-sucesso: #0F7B3E;
+  /* Verde acessível (AA ratio) */
+  --cor-erro: #D93025;
+  /* Vermelho acessível (AA ratio) */
+  --cor-fundo-erro: #FCE8E6;
+  --raio-borda: 16px;
+  /* Bordas arredondadas são mais amigáveis ao cérebro */
 }
 
-*{
-    margin: 0;
-    padding: 0;
+/* --- RESET BÁSICO --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-body{
-    background-color: white;
-    font-family: sans-serif
+body {
+  background-color: #D1D5DB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.perfil{
-    background-color: var(--azul);
-    color: #ffffff;
+/* --- ESTRUTURA DO CELULAR E TELAS (SPA) --- */
+.app-mockup {
+  background-color: var(--fundo-app);
+  width: 100%;
+  max-width: 412px;
+  height: 850px;
+  max-height: 100vh;
+  border-radius: 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-.topo{
-    background-color: var(--azul);
-    color: #ffffff;
-    padding: 30px;
+/* Controla quais telas aparecem ou somem via JavaScript */
+.tela {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  padding: 32px 24px;
+  animation: fadeIn 0.3s ease;
 }
 
-.nome{
-    background-color: transparent;
-    color: #ffffff;
+.tela.ativa {
+  display: flex;
 }
 
-main{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 40px;
+.centralizada {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.mini-caixa{
-    background-color: var(--azul);
-    height: 130px;
-    width: 250px;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
+/* Entender essa parte melhor. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.saldo{
-    background-color: var(--cinza);
-    border-radius: 20px;
-    height: 70px;
-    width: 230px;
-    margin-top: 24px;
-    display: flex;
-    align-items: center;
+/* --- TIPOGRAFIA --- */
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+  font-weight: 700;
 }
 
-.texto{
-    margin-top: 5px;
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  font-weight: 600;
 }
 
-.texto-saldo{
-    color: #000000;
-    font-family: sans-serif;
-    margin-top: 5px;
-    margin-left: 10px;
+p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--texto-secundario);
 }
+
+.header-principal,
+.header-interno {
+  margin-bottom: 32px;
+}
+
+.header-login {
+  margin-top: 60px;
+  margin-bottom: auto;
+}
+
+.logo-banco {
+  font-size: 80px;
+  margin-bottom: 24px;
+}
+
+/* --- COMPONENTES VISUAIS --- */
+.card-saldo {
+  background-color: var(--cor-primaria);
+  color: white;
+  padding: 24px;
+  border-radius: var(--raio-borda);
+}
+
+.card-saldo .legenda {
+  color: #A1A1AA;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.card-saldo h2 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: white;
+}
+
+/* --- LEI DE FITTS (BOTÕES E ALVOS DE TOQUE) --- */
+/* Botões têm 100% de largura, padding grande (24px) para área de toque e margem (32px) para buffer de erro */
+button {
+  border: none;
+  border-radius: var(--raio-borda);
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 600;
+  width: 100%;
+  transition: transform 0.1s;
+  display: block;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+.btn-gigante {
+  /* Lei de Fitts | Explicar sobre!*/
+  padding: 24px;
+  /* Deixa o botão gordin para clicar */
+  margin-bottom: 32px;
+  /* Distância o botão de baixo */
+}
+
+/* Margem de segurança contra tremores (Parkinson) */
+.btn-primario {
+  background-color: var(--cor-primaria);
+  color: white;
+}
+
+.btn-secundario {
+  background-color: var(--cor-secundaria);
+  color: var(--texto-principal);
+}
+
+.btn-erro {
+  background-color: var(--cor-fundo-erro);
+  color: var(--cor-erro);
+  border: 2px solid var(--cor-erro);
+}
+
+/* Voltar usa margem menor para caber nos cabeçalhos */
+.btn-voltar {
+  background: transparent;
+  color: var(--texto-principal);
+  text-align: left;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  width: auto;
+}
+
+/* Contatos: Layout empilhado para facilitar a leitura */
+.lista-botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-contato {
+  background-color: white;
+  border: 2px solid var(--cor-secundaria);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.btn-contato .nome {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--texto-principal);
+  margin-bottom: 4px;
+}
+
+.btn-contato .chave {
+  font-size: 1rem;
+  color: var(--texto-secundario);
+  font-weight: 400;
+}
+
+.separador {
+  height: 1px;
+  background-color: var(--cor-secundaria);
+  margin: 16px 0;
+}
+
+/* --- INPUTS DE FORMULÁRIO --- */
+.input-container {
+  margin-bottom: 32px;
+}
+
+.label-grande {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  display: block;
+  font-weight: 600;
+}
+
+.input-grande {
+  width: 100%;
+  padding: 20px;
+  font-size: 1.2rem;
+  border-radius: 16px;
+  border: 2px solid var(--cor-secundaria);
+  outline: none;
+}
+
+.input-grande:focus {
+  border-color: var(--cor-primaria);
+}
+
+/* Feedback visual de foco */
+
+/* --- TELA DE CONFIRMAÇÃO --- */
+.card-detalhes {
+  background: var(--cor-secundaria);
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 32px;
+}
+
+.card-detalhes .legenda {
+  font-size: 1rem;
+  color: var(--texto-secundario);
+  margin-bottom: 8px;
+}
+
+.card-detalhes .detalhe-titulo {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--texto-principal);
+  margin-bottom: 8px;
+}
+
+.card-detalhes h2 {
+  margin: 0;
+  color: var(--texto-principal);
+  font-size: 2rem;
+}
+
+.row-botoes {
+  display: flex;
+  gap: 16px;
+}
+
+/* Coloca Sim e Não lado a lado */
+.row-botoes button {
+  margin-bottom: 0;
+}
+
+/* --- TECLADO CUSTOMIZADO --- */
+/* Previne o uso do teclado nativo do sistema, que possui teclas minúsculas */
+.visor-valor {
+  background-color: var(--cor-secundaria);
+  color: var(--texto-principal);
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: right;
+  padding: 24px;
+  border-radius: var(--raio-borda);
+  margin-bottom: 32px;
+  letter-spacing: -1px;
+}
+
+.teclado-acessivel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: auto;
+}
+
+.btn-tecla {
+  background-color: var(--cor-secundaria);
+  color: var(--texto-principal);
+  font-size: 1.8rem;
+  padding: 20px 0;
+  border-radius: var(--raio-borda);
+  margin-bottom: 0;
+}
+
+.btn-tecla.apagar {
+  background-color: #f1f5f9;
+  color: var(--texto-secundario);
+}
+
+.btn-tecla.ok {
+  background-color: var(--cor-primaria);
+  color: white;
+}
+
+/* --- TELA DE EXTRATO --- */
+.lista-extrato {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+
+.item-extrato {
+  background-color: white;
+  border: 2px solid var(--cor-secundaria);
+  border-radius: var(--raio-borda);
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-transacao {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-transacao .titulo {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--texto-principal);
+}
+
+.info-transacao .data {
+  font-size: 1rem;
+  color: var(--texto-secundario);
+}
+
+.item-extrato .valor {
+  font-size: 1.25rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.item-extrato.saida .valor {
+  color: var(--texto-principal);
+}
+
+.item-extrato.entrada .valor {
+  color: var(--cor-sucesso);
+}
+
+/* --- ESTADOS DO SISTEMA (Carregando, Sucesso, Erro) --- */
+.estado-centralizado {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 6px solid var(--cor-secundaria);
+  border-top-color: var(--cor-primaria);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 32px auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.icone-status {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 24px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  color: white;
+}
+
+.icone-sucesso {
+  background-color: var(--cor-sucesso);
+}
+
+.icone-sucesso::after {
+  content: "✓";
+}
+
+.icone-erro {
+  background-color: var(--cor-erro);
+}
+
+.icone-erro::after {
+  content: "!";
+}
+
+.mt-auto {
+  margin-top: auto;
+  width: 100%;
+}
+
+.oculto {
+  display: none !important;
+}
+
+/* Classe utilitária para esconder botões via JS */
