@@ -5,7 +5,7 @@
   --texto-principal: #111111;
   --texto-secundario: #555555;
   --cor-primaria: #0e0e80;
-  /* Azul bem escuro, passa elegância e seriedade */
+  /* Azul bem escuro, passa elegância e seriedade (Vindo do GitHub) */
   --cor-secundaria: #E5E5E5;
   --cor-sucesso: #0F7B3E;
   /* Verde acessível (AA ratio) */
@@ -54,6 +54,7 @@ body {
   height: 100%;
   padding: 32px 24px;
   animation: fadeIn 0.3s ease;
+  /* Toda vez que uma tela nova aparece (via JavaScript), o CSS executa essa animação. ~Keyframe */
 }
 
 .tela.ativa {
@@ -66,14 +67,17 @@ body {
   text-align: center;
 }
 
-/* Entender essa parte melhor. */
 @keyframes fadeIn {
+
+  /* Usado para transições de telas. */
   from {
+    /* Estado incial da animação.*/
     opacity: 0;
     transform: translateY(10px);
   }
 
   to {
+    /* Estado final da animação.*/
     opacity: 1;
     transform: translateY(0);
   }
@@ -143,17 +147,18 @@ button {
   font-weight: 600;
   width: 100%;
   transition: transform 0.1s;
+  /* Ligado diretamente ao button:active, porquê ele é como um "amortecedor" que faz com que leve 0.1 segundos para ele fazer diminuir de tamanho. */
   display: block;
 }
 
 button:active {
   transform: scale(0.97);
+  /* Faz o botão encolher quando clicado. Faz o usuário sentir que o botão foi apertado.*/
 }
 
 .btn-gigante {
-  /* Lei de Fitts | Explicar sobre!*/
   padding: 24px;
-  /* Deixa o botão gordin para clicar */
+  /* Deixa o botão mais preenchido para clicar */
   margin-bottom: 32px;
   /* Distância o botão de baixo */
 }
@@ -247,8 +252,6 @@ button:active {
   border-color: var(--cor-primaria);
 }
 
-/* Feedback visual de foco */
-
 /* --- TELA DE CONFIRMAÇÃO --- */
 .card-detalhes {
   background: var(--cor-secundaria);
@@ -287,7 +290,6 @@ button:active {
 }
 
 /* --- TECLADO CUSTOMIZADO --- */
-/* Previne o uso do teclado nativo do sistema, que possui teclas minúsculas */
 .visor-valor {
   background-color: var(--cor-secundaria);
   color: var(--texto-principal);
@@ -391,10 +393,14 @@ button:active {
   border-top-color: var(--cor-primaria);
   border-radius: 50%;
   animation: spin 1s linear infinite;
+  /* Estado atual -> Rotação de 360 Graus. */
+  /* infinite faz ele nunca para girar e cria um efeito de carregamento contínuo. */
   margin: 0 auto 32px auto;
 }
 
 @keyframes spin {
+
+  /* Círculo de carregamento */
   to {
     transform: rotate(360deg);
   }
@@ -436,5 +442,3 @@ button:active {
 .oculto {
   display: none !important;
 }
-
-/* Classe utilitária para esconder botões via JS */
