@@ -9,6 +9,9 @@
 </head>
 
 <body>
+  <div id="notificacao-erro" class="notificacao oculto">
+    Senha incorreta. Tente novamente!
+  </div>
   <main class="app-mockup">
 
     <section id="tela-login" class="tela ativa centralizada">
@@ -25,9 +28,36 @@
           <button class="btn-primario btn-gigante" onclick="navegar('tela-inicio')">
             Entrar com Digital / Rosto
           </button>
-          <button class="btn-secundario btn-gigante">Usar Senha Numérica</button>
+          <button class="btn-secundario btn-gigante" onclick="abrirTecladoSenha()">Usar Senha Numérica</button>
         </nav>
       </div>
+    </section>
+
+    <section id="tela-senha-login" class="tela">
+      <header class="header-interno">
+        <button class="btn-voltar" onclick="navegar('tela-login')">← Voltar</button>
+        <h2>Digite sua senha</h2>
+      </header>
+      
+      <div class="conteudo-tela">
+        <div class="visor-valor" id="visor-senha" style="letter-spacing: 10px; text-align: center;">------</div>
+        
+        <div class="teclado-acessivel">
+          <button class="btn-tecla" onclick="digitarSenha('1')">1</button>
+          <button class="btn-tecla" onclick="digitarSenha('2')">2</button>
+          <button class="btn-tecla" onclick="digitarSenha('3')">3</button>
+          <button class="btn-tecla" onclick="digitarSenha('4')">4</button>
+          <button class="btn-tecla" onclick="digitarSenha('5')">5</button>
+          <button class="btn-tecla" onclick="digitarSenha('6')">6</button>
+          <button class="btn-tecla" onclick="digitarSenha('7')">7</button>
+          <button class="btn-tecla" onclick="digitarSenha('8')">8</button>
+          <button class="btn-tecla" onclick="digitarSenha('9')">9</button>
+          <button class="btn-tecla apagar" onclick="apagarSenha()">⌫</button>
+          <button class="btn-tecla" onclick="digitarSenha('0')">0</button>
+          <button class="btn-tecla ok" onclick="confirmarSenha()">Entrar</button>
+        </div>
+      </div>
+      <div class="footer-tela"></div>
     </section>
 
     <section id="tela-inicio" class="tela">

@@ -198,3 +198,73 @@ function confirmarValorTeclado() {
     }
     prepararConfirmacao('PIX', destinatarioAtual, valorFloat);
 }
+
+// ==========================================
+// LÓGICA DE LOGIN POR SENHA
+// ==========================================
+let senhaDigitada = "";
+const SENHA_CORRETA = "123456";
+
+function abrirTecladoSenha() {
+    senhaDigitada = "";
+    atualizarVisorSenha();
+    navegar('tela-senha-login');
+}
+
+function atualizarVisorSenha() {
+    const visor = document.getElementById('visor-senha');
+    // Cria uma string de bolinhas baseada no tamanho da senha
+    // Se estiver vazio, mostra traços
+    if (senhaDigitada.length === 0) {
+        visor.textContent = "------";
+        visor.style.color = "var(--texto-secundario)";
+    } else {
+        visor.textContent = "•".repeat(senhaDigitada.length);
+        visor.style.color = "var(--cor-primaria)";
+    }
+}
+
+function digitarSenha(num) {
+    if (senhaDigitada.length < 6) {
+        senhaDigitada += num;
+        atualizarVisorSenha();
+    }
+}
+
+function apagarSenha() {
+    senhaDigitada = senhaDigitada.slice(0, -1);
+    atualizarVisorSenha();
+}
+
+function confirmarSenha() {
+    if (senhaDigitada === SENHA_CORRETA) {
+        navegar('tela-inicio');
+    } else {
+        exibirErroSenha();
+        senhaDigitada = "";
+        atualizarVisorSenha();
+    }
+}
+
+function exibirErroSenha() {
+    const notificacao = document.getElementById('notificacao-erro');
+    const visor = document.getElementById('visor-senha');
+
+    // Mostra o balão vermelho
+    notificacao.classList.remove('oculto');
+
+    // Adiciona efeito de tremor no visor (opcional, mas muito bom para IHC)
+    visor.style.border = "2px solid var(--cor-erro)";
+    visor.style.transform = "translateX(5px)";
+    
+    setTimeout(() => {
+        visor.style.transform = "translateX(-5px)";
+        setTimeout(() => visor.style.transform = "translateX(0)", 50);
+    }, 50);
+
+    // Esconde o balão após 3 segundos
+    setTimeout(() => {
+        notificacao.classList.add('oculto');
+        visor.style.border = "none";
+    }, 3000);
+}
