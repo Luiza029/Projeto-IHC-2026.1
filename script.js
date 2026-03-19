@@ -86,7 +86,7 @@ function avancarOutraPessoa() {
     // 3. Erro: Celular ou CPF
     else {
         if (apenasNumeros.length > 0 && apenasNumeros.length <= 10) {
-            mostrarPopUpErro("Celular precisa de até 9 digitos");
+            mostrarPopUpErro("Celular precisa de 9 digitos");
             return;
         }
         if (apenasNumeros.length > 11) {
