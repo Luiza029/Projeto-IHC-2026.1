@@ -1,29 +1,26 @@
 // ==========================================
 // ESTADO GLOBAL DA APLICAÇÃO
 // ==========================================
-let saldoApp = 200.00; // Saldo fictício inicial
-let destinatarioAtual = ""; // Quem vai receber o dinheiro
-let valorContaPendente = 0; // Quanto de dinheiro vai sair
-let tipoTransacaoAtual = ""; // Guarda se é "PIX" ou "Pagamento"
-let valorDigitadoStr = "0"; // String que alimenta o teclado numérico
-let telaAnteriorConfirmacao = ""; // Ajuda o botão "Voltar" a saber para onde ir
-// Formatador nativo do JS para converter números em R$ 0,00
+let saldoApp = 200.00; 
+let destinatarioAtual = ""; 
+let valorContaPendente = 0; 
+let tipoTransacaoAtual = ""; 
+let valorDigitadoStr = "0"; 
+let telaAnteriorConfirmacao = ""; 
 const formatadorBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
-// Variável de controle de estado
 let saldoOculto = false;
 
 function toggleSaldo() {
     const displaySaldo = document.getElementById('display-saldo');
     const btnToggle = document.getElementById('btn-toggle-saldo');
     
-    saldoOculto = !saldoOculto; // Inverte o valor do lt saldoOculto
+    saldoOculto = !saldoOculto;
 
     if (saldoOculto) {
-        displaySaldo.textContent = "••••••"; // Máscara de segurança
-        btnToggle.textContent = "👀"; // Muda o ícone
+        displaySaldo.textContent = "••••••";
+        btnToggle.textContent = "👀";
     } else {
-        // Revela o saldo formatado usando o valor global saldoApp
         displaySaldo.textContent = formatadorBRL.format(saldoApp);
         btnToggle.textContent = "👁️";
     }
@@ -32,57 +29,87 @@ function toggleSaldo() {
 // ==========================================
 // MOTOR DE NAVEGAÇÃO (SPA)
 // ==========================================
-// Esta função esconde todas as seções e mostra apenas a que possui o ID passado
 function navegar(idTela) {
     document.querySelectorAll('.tela').forEach(tela => tela.classList.remove('ativa'));
     document.getElementById(idTela).classList.add('ativa');
 
-    // Sempre que voltar ao início, garante que o saldo na tela esteja atualizado
     if (idTela === 'tela-inicio') {
         const displaySaldo = document.getElementById('display-saldo');
-        if (saldoOculto) {
-            displaySaldo.textContent = "••••••";
-        } else {
-            displaySaldo.textContent = formatadorBRL.format(saldoApp);
-        }
+        displaySaldo.textContent = saldoOculto ? "••••••" : formatadorBRL.format(saldoApp);
     }
 }
 
-
-
+// ==========================================
+// FUNÇÃO DE POP-UP (NOTIFICAÇÃO RÁPIDA)
+// ==========================================
+// Esta função faz a tarja vermelha aparecer no topo por 4 segundos
+function mostrarPopUpErro(mensagem) {
+    const notificacao = document.getElementById('notificacao-erro');
+    notificacao.textContent = mensagem;
+    notificacao.classList.remove('oculto');
+    
+    // Remove a notificação automaticamente após 4 segundos
+    setTimeout(() => {
+        notificacao.classList.add('oculto');
+    }, 4000);
+}
 
 // ==========================================
-// FLUXOS DE CAPTURA DE DADOS
+// FLUXOS DE CAPTURA DE DADOS E VALIDAÇÕES
 // ==========================================
 
-// Chamada quando o usuário clica em um contato na lista do PIX
 function selecionarContato(nome) {
     destinatarioAtual = nome;
     document.getElementById('titulo-valor').textContent = `Qual valor para ${nome}?`;
     navegar('tela-valor');
 }
 
-// Chamada quando o usuário digita um CPF/Chave na tela "Outra Pessoa"
 function avancarOutraPessoa() {
-    const input = document.getElementById('chave-pix').value;
-    if (input.trim() === "") {
-        alert("Por favor, digite uma chave válida."); // Tratamento de erro primário
+    const input = document.getElementById('chave-pix').value.trim();
+    
+    // 1. Erro: Campo Vazio
+    if (input === "") {
+        mostrarPopUpErro("Digite um CPF, Celular ou E-mail.");
         return;
     }
+
+    const apenasNumeros = input.replace(/\D/g, ''); 
+    const temLetras = /[a-zA-Z]/.test(input); 
+
+    // 2. Erro: E-mail sem @
+    if (temLetras) {
+        if (!input.includes('@')) {
+            mostrarPopUpErro("E-mail precisa ter o símbolo @");
+            return;
+        }
+    } 
+    // 3. Erro: Celular ou CPF
+    else {
+        if (apenasNumeros.length > 0 && apenasNumeros.length <= 10) {
+            mostrarPopUpErro("Celular precisa de até 9 digitos");
+            return;
+        }
+        if (apenasNumeros.length > 11) {
+            mostrarPopUpErro("Chave muito longa. Máximo 11 números.");
+            return;
+        }
+        if (apenasNumeros.length !== 11) {
+            mostrarPopUpErro("CPF incompleto. Digite os 11 números.");
+            return;
+        }
+    }
+
     selecionarContato(input);
 }
 
-
 // ==========================================
-// TELA DE CONFIRMAÇÃO UNIVERSAL (Obrigatório em IHC)
+// TELA DE CONFIRMAÇÃO
 // ==========================================
-// Centralizamos as chamadas para garantir que TUDO passa por confirmação
 function prepararConfirmacao(tipo, nomeDestino, valor) {
     tipoTransacaoAtual = tipo;
     destinatarioAtual = nomeDestino;
     valorContaPendente = valor;
     
-    // Identifica de onde o usuário veio para configurar o botão "Voltar" ou "Não"
     if (tipo === "PIX") {
         telaAnteriorConfirmacao = "tela-valor";
         document.getElementById('legenda-confirmacao').textContent = "Você está enviando PIX para:";
@@ -91,81 +118,69 @@ function prepararConfirmacao(tipo, nomeDestino, valor) {
         document.getElementById('legenda-confirmacao').textContent = "Você está pagando a conta:";
     }
 
-    // Preenche os dados na tela antes de exibi-la
     document.getElementById('nome-confirmacao').textContent = nomeDestino;
     document.getElementById('valor-confirmacao').textContent = formatadorBRL.format(valor);
     
     navegar('tela-confirmacao');
 }
 
-// Botão "Não" da tela de confirmação
 function cancelarConfirmacao() {
     navegar(telaAnteriorConfirmacao);
 }
 
-
 // ==========================================
-// PROCESSAMENTO E ESTADOS DO SISTEMA
+// PROCESSAMENTO
 // ==========================================
-
-// Botão "Sim" da tela de confirmação dispara o Carregamento
 function processarTransacao() {
-    navegar('tela-carregando'); // Estado 1: Carregando
-    
-    // setTimeout simula o delay real da comunicação com um servidor bancário
+    navegar('tela-carregando');
     setTimeout(() => {
         avaliarTransacao();
     }, 2000);
 }
 
-// Lógica de Sucesso vs Erro baseada no Saldo
 function avaliarTransacao() {
     const titulo = document.getElementById('titulo-feedback');
     const mensagem = document.getElementById('mensagem-feedback');
     const icone = document.getElementById('icone-feedback');
     const btnTentarNovamente = document.getElementById('btn-tentar-novamente');
 
-    icone.className = 'icone-status'; // Limpa os ícones antigos
+    icone.className = 'icone-status';
 
     if (valorContaPendente > saldoApp) {
-        // FLUXO DE ERRO (Requisito obrigatório do projeto)
         titulo.textContent = "Saldo Insuficiente";
         titulo.style.color = "var(--cor-erro)";
         mensagem.innerHTML = `Você tentou pagar <strong>${formatadorBRL.format(valorContaPendente)}</strong>, mas seu saldo é <strong>${formatadorBRL.format(saldoApp)}</strong>.`;
         icone.classList.add('icone-erro');
-        btnTentarNovamente.classList.remove('oculto'); // Exibe o botão de recuperação de erro
+        btnTentarNovamente.classList.remove('oculto');
+        btnTentarNovamente.onclick = () => navegar('tela-valor');
     } else {
-        // FLUXO DE SUCESSO (Requisito principal)
-        saldoApp -= valorContaPendente; // Efetiva o débito matemático
+        saldoApp -= valorContaPendente;
         titulo.textContent = "Transação Concluída!";
         titulo.style.color = "var(--cor-sucesso)";
         mensagem.innerHTML = `O valor de <strong>${formatadorBRL.format(valorContaPendente)}</strong> foi enviado para <strong>${destinatarioAtual}</strong>.`;
         icone.classList.add('icone-sucesso');
-        btnTentarNovamente.classList.add('oculto'); // Oculta botão de tentar novamente
+        btnTentarNovamente.classList.add('oculto');
     }
 
-    navegar('tela-feedback'); // Estado 2/3: Erro ou Sucesso
+    navegar('tela-feedback');
 }
 
-// Limpa as variáveis para a próxima operação
 function finalizarFluxo() {
     destinatarioAtual = ""; 
     valorContaPendente = 0;
+    document.getElementById('chave-pix').value = ""; 
     navegar('tela-inicio');
 }
 
-
 // ==========================================
-// LÓGICA DO TECLADO NUMÉRICO CUSTOMIZADO
+// LÓGICA DO TECLADO VALOR
 // ==========================================
-
 function abrirTeclado() {
-    valorDigitadoStr = "0"; // Reseta o estado anterior do teclado
+    valorDigitadoStr = "0";
     atualizarVisor();
     navegar('tela-teclado');
 }
 
-// Transforma a string do teclado num float com duas casas decimais (ex: "500" vira 5.00)
 function atualizarVisor() {
     const valorFloat = parseInt(valorDigitadoStr) / 100;
     document.getElementById('visor-valor').textContent = formatadorBRL.format(valorFloat);
@@ -174,47 +189,34 @@ function atualizarVisor() {
 function digitarNumero(num) {
     if (valorDigitadoStr === "0") {
         valorDigitadoStr = num;
-    } else if (valorDigitadoStr.length < 7) { // Trava limite para não quebrar a UI
+    } else if (valorDigitadoStr.length < 7) {
         valorDigitadoStr += num;
     }
     atualizarVisor();
 }
 
 function apagarNumero() {
-    if (valorDigitadoStr.length > 1) {
-        valorDigitadoStr = valorDigitadoStr.slice(0, -1); // Remove último dígito
-    } else {
-        valorDigitadoStr = "0";
-    }
+    valorDigitadoStr = (valorDigitadoStr.length > 1) ? valorDigitadoStr.slice(0, -1) : "0";
     atualizarVisor();
 }
 
-// Manda o valor do teclado direto para a tela de Confirmação
 function confirmarValorTeclado() {
     const valorFloat = parseInt(valorDigitadoStr) / 100;
     if (valorFloat === 0) {
-        alert("Por favor, digite um valor maior que zero."); // Prevenção de erro
+        mostrarPopUpErro("O valor precisa ser maior que zero.");
         return;
     }
     prepararConfirmacao('PIX', destinatarioAtual, valorFloat);
 }
 
 // ==========================================
-// LÓGICA DE LOGIN POR SENHA
+// LÓGICA DE LOGIN (SENHA)
 // ==========================================
 let senhaDigitada = "";
 const SENHA_CORRETA = "123456";
 
-function abrirTecladoSenha() {
-    senhaDigitada = "";
-    atualizarVisorSenha();
-    navegar('tela-senha-login');
-}
-
 function atualizarVisorSenha() {
     const visor = document.getElementById('visor-senha');
-    // Cria uma string de bolinhas baseada no tamanho da senha
-    // Se estiver vazio, mostra traços
     if (senhaDigitada.length === 0) {
         visor.textContent = "------";
         visor.style.color = "var(--texto-secundario)";
@@ -240,31 +242,14 @@ function confirmarSenha() {
     if (senhaDigitada === SENHA_CORRETA) {
         navegar('tela-inicio');
     } else {
-        exibirErroSenha();
+        mostrarPopUpErro("Senha incorreta. Tente novamente!");
         senhaDigitada = "";
         atualizarVisorSenha();
     }
 }
 
-function exibirErroSenha() {
-    const notificacao = document.getElementById('notificacao-erro');
-    const visor = document.getElementById('visor-senha');
-
-    // Mostra o balão vermelho
-    notificacao.classList.remove('oculto');
-
-    // Adiciona efeito de tremor no visor (opcional, mas muito bom para IHC)
-    visor.style.border = "2px solid var(--cor-erro)";
-    visor.style.transform = "translateX(5px)";
-    
-    setTimeout(() => {
-        visor.style.transform = "translateX(-5px)";
-        setTimeout(() => visor.style.transform = "translateX(0)", 50);
-    }, 50);
-
-    // Esconde o balão após 3 segundos
-    setTimeout(() => {
-        notificacao.classList.add('oculto');
-        visor.style.border = "none";
-    }, 3000);
+function abrirTecladoSenha() {
+    senhaDigitada = "";
+    atualizarVisorSenha();
+    navegar('tela-senha-login');
 }
