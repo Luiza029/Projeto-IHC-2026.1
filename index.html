@@ -80,7 +80,7 @@
           <button class="btn-secundario btn-gigante" onclick="navegar('tela-destinatario')">Fazer PIX</button>
           <button class="btn-secundario btn-gigante" onclick="navegar('tela-pagar')">Pagar Conta</button>
           <button class="btn-secundario btn-gigante" onclick="navegar('tela-extrato')">Ver Extrato</button>
-          <button class="btn-voltar mt-auto btn-sair" onclick="navegar('tela-login')"
+          <button class="btn-secundario btn-gigante mt-auto btn-sair" onclick="navegar('tela-login')"
             style="text-align: center; width: 100%; margin-top: 48px;">
             Sair da Conta
           </button>
@@ -186,7 +186,7 @@
           <button class="btn-primario btn-gigante">Escanear Boleto</button>
           <button class="btn-secundario btn-gigante">Digitar Código</button>
           <div class="separador"></div>
-          <button class="btn-secundario btn-gigante" onclick="navegar('tela-favoritas')">Contas Favoritas</button>
+          <button class="btn-secundario btn-gigante" onclick="navegar('tela-favoritas')">Cobranças recorrentes</button>
         </div>
       </div>
       <div class="footer-tela"></div>
@@ -195,7 +195,7 @@
     <section id="tela-favoritas" class="tela">
       <header class="header-interno">
         <button class="btn-voltar" onclick="navegar('tela-pagar')">← Voltar</button>
-        <h2>Contas Favoritas</h2>
+        <h2>Cobranças recorrentes</h2>
       </header>
       
       <div class="conteudo-tela">
@@ -203,14 +203,20 @@
           <button class="btn-contato" onclick="prepararConfirmacao('Pagamento', 'Internet', 99.00)">
             <span class="nome">Internet</span>
             <span class="chave">R$ 99,00</span>
+            <span class="data-cobranca">Vence dia 15</span>
+            <span class="status oculto">✔ Pago</span>
           </button>
           <button class="btn-contato" onclick="prepararConfirmacao('Pagamento', 'Academia', 150.00)">
             <span class="nome">Academia</span>
             <span class="chave">R$ 150,00</span>
+            <span class="data-cobranca">Vence dia 15</span>
+            <span class="status oculto">✔ Pago</span>
           </button>
           <button class="btn-contato" onclick="prepararConfirmacao('Pagamento', 'Luz', 120.00)">
             <span class="nome">Luz</span>
             <span class="chave">R$ 120,00</span>
+            <span class="data-cobranca">Vence dia 15</span>
+            <span class="status oculto">✔ Pago</span>
           </button>
         </div>
       </div>

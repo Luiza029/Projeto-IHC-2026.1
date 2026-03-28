@@ -11,6 +11,12 @@ const formatadorBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', curren
 
 let saldoOculto = false;
 
+const contasRecorrentes = [
+    { nome: "Internet", valor: 99.00, diaVencimento: 10, pago: false },
+    { nome: "Academia", valor: 150.00, diaVencimento: 5, pago: false },
+    { nome: "Luz", valor: 120.00, diaVencimento: 15, pago: false }
+];
+
 function toggleSaldo() {
     const displaySaldo = document.getElementById('display-saldo');
     const btnToggle = document.getElementById('btn-toggle-saldo');
@@ -155,6 +161,12 @@ function avaliarTransacao() {
         btnTentarNovamente.onclick = () => navegar('tela-valor');
     } else {
         saldoApp -= valorContaPendente;
+        if (tipoTransacaoAtual === "PIX") {
+        adicionarAoExtrato("PIX para " + destinatarioAtual, valorContaPendente);
+    } else {
+        adicionarAoExtrato("Pagamento: " + destinatarioAtual, valorContaPendente);
+        marcarComoPago(destinatarioAtual);
+    }
         titulo.textContent = "Transação Concluída!";
         titulo.style.color = "var(--cor-sucesso)";
         mensagem.innerHTML = `O valor de <strong>${formatadorBRL.format(valorContaPendente)}</strong> foi enviado para <strong>${destinatarioAtual}</strong>.`;
@@ -252,4 +264,54 @@ function abrirTecladoSenha() {
     senhaDigitada = "";
     atualizarVisorSenha();
     navegar('tela-senha-login');
+}
+
+function adicionarAoExtrato(nome, valor) {
+  const lista = document.querySelector('.lista-extrato');
+
+  const item = document.createElement('div');
+  item.classList.add('item-extrato', 'saida');
+
+  const data = new Date().toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
+
+  item.innerHTML = `
+    <div class="info-transacao">
+      <span class="titulo">${nome}</span>
+      <span class="data">${data}</span>
+    </div>
+    <span class="valor">- R$ ${valor.toFixed(2)}</span>
+  `;
+
+  lista.prepend(item); // adiciona no topo
+}
+
+function calcularProximaCobranca(dia) {
+    const hoje = new Date();
+    let proxima = new Date(hoje.getFullYear(), hoje.getMonth(), dia);
+
+    if (hoje.getDate() > dia) {
+        proxima.setMonth(proxima.getMonth() + 1);
+    }
+
+    return proxima.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'short'
+    });
+}
+
+function marcarComoPago(nome) {
+    const contas = document.querySelectorAll('.btn-contato');
+
+    contas.forEach(conta => {
+        const titulo = conta.querySelector('.nome').textContent;
+
+        if (titulo === nome) {
+            conta.classList.add('pago');
+            conta.querySelector('.status').classList.remove('oculto');
+        }
+    });
 }
