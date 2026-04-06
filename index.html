@@ -17,12 +17,12 @@
     <section id="tela-login" class="tela ativa centralizada">
       <header class="header-login">
         <div class="p">
-          <img src="foto_de_perfil.png" alt="" class="foto-perfil">
+          <img src="menina_linda.jpg" alt="" class="foto-perfil">
         </div>
         <h1>Bem-vindo</h1>
         <p>Acesse sua conta de forma segura.</p>
       </header>
-      
+
       <div class="conteudo-tela">
         <nav class="acoes-container mt-auto">
           <button class="btn-primario btn-gigante" onclick="navegar('tela-inicio')">
@@ -38,10 +38,10 @@
         <button class="btn-voltar" onclick="navegar('tela-login')">← Voltar</button>
         <h2>Digite sua senha</h2>
       </header>
-      
+
       <div class="conteudo-tela">
         <div class="visor-valor" id="visor-senha" style="letter-spacing: 10px; text-align: center;">------</div>
-        
+
         <div class="teclado-acessivel">
           <button class="btn-tecla" onclick="digitarSenha('1')">1</button>
           <button class="btn-tecla" onclick="digitarSenha('2')">2</button>
@@ -64,18 +64,19 @@
       <header class="header-tela">
         <h1>Olá, Murilo 👋</h1>
       </header>
-        
+
       <div class="conteudo-tela">
         <div class="card-saldo">
           <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <p class="legenda">Saldo disponível</p>
-            <button id="btn-toggle-saldo" onclick="toggleSaldo()" style="width: auto; background: transparent; padding: 0; margin: 0; font-size: 1.5rem;">
+            <button id="btn-toggle-saldo" onclick="toggleSaldo()"
+              style="width: auto; background: transparent; padding: 0; margin: 0; font-size: 1.5rem;">
               👁️
             </button>
           </div>
           <h2 id="display-saldo">R$ 200,00</h2>
         </div>
-        
+
         <nav class="acoes-container">
           <button class="btn-secundario btn-gigante" onclick="navegar('tela-destinatario')">Fazer PIX</button>
           <button class="btn-secundario btn-gigante" onclick="navegar('tela-pagar')">Pagar Conta</button>
@@ -86,7 +87,7 @@
           </button>
         </nav>
       </div>
-      
+
       <div class="footer-tela"></div>
     </section>
 
@@ -95,7 +96,7 @@
         <button class="btn-voltar" onclick="navegar('tela-inicio')">← Voltar</button>
         <h2>Para quem?</h2>
       </header>
-      
+
       <div class="conteudo-tela">
         <div class="lista-botoes">
           <button class="btn-contato" onclick="selecionarContato('Maria Silva')">
@@ -120,7 +121,7 @@
         <button class="btn-voltar" onclick="navegar('tela-destinatario')">← Voltar</button>
         <h2>Para quem?</h2>
       </header>
-      
+
       <div class="conteudo-tela">
         <div class="input-container">
           <label for="chave-pix" class="label-grande">Digite a Chave PIX</label>
@@ -136,14 +137,17 @@
         <button class="btn-voltar" onclick="navegar('tela-destinatario')">← Voltar</button>
         <h2 id="titulo-valor">Qual valor?</h2>
       </header>
-      
+
       <div class="conteudo-tela">
         <div class="lista-botoes">
-          <button class="btn-primario btn-gigante" onclick="prepararConfirmacao('PIX', destinatarioAtual, 50)">R$ 50,00</button>
-          <button class="btn-primario btn-gigante" onclick="prepararConfirmacao('PIX', destinatarioAtual, 100)">R$ 100,00</button>
+          <button class="btn-primario btn-gigante" onclick="prepararConfirmacao('PIX', destinatarioAtual, 50)">R$
+            50,00</button>
+          <button class="btn-primario btn-gigante" onclick="prepararConfirmacao('PIX', destinatarioAtual, 100)">R$
+            100,00</button>
           <div class="separador"></div>
           <button class="btn-secundario btn-gigante" onclick="abrirTeclado()">Digitar Outro Valor</button>
-          <button class="btn-erro btn-gigante" onclick="prepararConfirmacao('PIX', destinatarioAtual, 300)">R$ 300,00 (Testar Erro)</button>
+          <button class="btn-erro btn-gigante" onclick="prepararConfirmacao('PIX', destinatarioAtual, 300)">R$ 300,00
+            (Testar Erro)</button>
         </div>
       </div>
       <div class="footer-tela"></div>
@@ -154,7 +158,7 @@
         <button class="btn-voltar" onclick="navegar('tela-valor')">← Voltar</button>
         <h2>Qual o valor exato?</h2>
       </header>
-      
+
       <div class="conteudo-tela">
         <div class="visor-valor" id="visor-valor">R$ 0,00</div>
         <div class="teclado-acessivel">
@@ -180,7 +184,7 @@
         <button class="btn-voltar" onclick="navegar('tela-inicio')">← Voltar</button>
         <h2>Como deseja pagar?</h2>
       </header>
-      
+
       <div class="conteudo-tela">
         <div class="lista-botoes">
           <button class="btn-primario btn-gigante">Escanear Boleto</button>
@@ -197,7 +201,7 @@
         <button class="btn-voltar" onclick="navegar('tela-pagar')">← Voltar</button>
         <h2>Cobranças recorrentes</h2>
       </header>
-      
+
       <div class="conteudo-tela">
         <div class="lista-botoes">
           <button class="btn-contato" onclick="prepararConfirmacao('Pagamento', 'Internet', 99.00)">
@@ -228,7 +232,7 @@
         <button class="btn-voltar" onclick="cancelarConfirmacao()">← Voltar</button>
         <h2 id="titulo-confirmacao">Confirmar Transação</h2>
       </header>
-      
+
       <div class="conteudo-tela">
         <div class="card-detalhes">
           <p id="legenda-confirmacao" class="legenda">Você está enviando para:</p>
@@ -248,7 +252,7 @@
         <button class="btn-voltar" onclick="navegar('tela-inicio')">← Voltar</button>
         <h2>Seu Extrato</h2>
       </header>
-      
+
       <div class="conteudo-tela">
         <div class="lista-extrato">
           <div class="item-extrato saida">
@@ -279,7 +283,8 @@
         <h2 id="titulo-feedback">Status</h2>
         <p id="mensagem-feedback">Mensagem.</p>
         <div class="acoes-container mt-auto" style="width: 100%;">
-          <button id="btn-tentar-novamente" class="btn-primario btn-gigante oculto" onclick="cancelarConfirmacao()">Tentar
+          <button id="btn-tentar-novamente" class="btn-primario btn-gigante oculto"
+            onclick="cancelarConfirmacao()">Tentar
             outro valor</button>
           <button class="btn-secundario btn-gigante" onclick="finalizarFluxo()">Voltar ao Início</button>
         </div>
